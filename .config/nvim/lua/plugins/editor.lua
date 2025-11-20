@@ -36,7 +36,8 @@ return {
         mode = { "n", "x" },
         desc = "Add cursors to cword in previous area",
       },
-
+      -- Visual-mode: Ctrl-N (like vip + <C-n>) adds cursors to each selected line
+      { "<C-n>", "<Cmd>MultipleCursorsAddVisualArea<CR>", mode = { "x" }, desc = "Add cursors to lines of visual area" },
       {
         "<Leader>d",
         "<Cmd>MultipleCursorsAddJumpNextMatch<CR>",

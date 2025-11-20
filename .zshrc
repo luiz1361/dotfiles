@@ -146,12 +146,19 @@ autoload -Uz compinit
 zstyle ':completion:*' use-cache on     # default: use-cache off
 zstyle ':completion:*' cache-path ~/.zcompdump  # default: no cache-path set
 
-# `compinit -C` loads the cached comps system and avoids expensive recomputation at every shell startup.
-# If you add or update completions, remove the cache file to force a rebuild or run compinit without -C.
+# `compinit -c` loads the cached comps system and avoids expensive recomputation at every shell startup.
+# if you add or update completions, remove the cache file to force a rebuild or run compinit without -c.
+# compinit -c (lowercase c)
+#   Tells compinit to create a cache file if one doesn’t exist.
+#   If the cache file already exists, it uses it.
+#   If you update completions and want to force a rebuild, you’d need to remove the cache manually.
+# compinit -C (uppercase C)
+#   Tells compinit to only read the cached file and never rebuild it.
+#   If the cache file doesn’t exist, compinit -C will fail.
 compinit -C  # load from cache, skip unnecessary rebuilds  # default: compinit (rebuilds if needed)
 
 # Only load bashcompinit if you need bash-style completions (commented out unless specifically needed).
-# autoload -Uz bashcompinit && bashcompinit
+#autoload -Uz bashcompinit && bashcompinit
 
 # Prevent slow syntax highlighting when pasting very long lines by setting a sane max length.
 # This is particularly helpful when accidentally pasting large JSON payloads into the prompt.

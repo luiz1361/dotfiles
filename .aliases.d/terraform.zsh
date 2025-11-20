@@ -1,3 +1,7 @@
+# Zsh completion for Terraform and Terragrunt
+complete -C "$(command -v terraform)" terraform
+complete -C "$(command -v terragrunt)" terragrunt
+
 # Alias for running Terraform commands
 alias tf="terraform"
 

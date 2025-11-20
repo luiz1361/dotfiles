@@ -31,7 +31,7 @@
     dark = true      # or light = true, or omit for auto-detection. Default is auto.
     side-by-side = true # show diffs side by side. Default is false.
     line-numbers = true # show line numbers in the gutter. Default is false.
-    syntax-theme = tokyo-night # choose your favorite syntax theme. Default is 'GitHub' theme.
+    syntax-theme = Visual Studio Dark+ # choose your favorite syntax theme. Default is 'GitHub' theme.
     hyperlinks = true # make file paths clickable links in supported terminals. Default is false.
 	file-style = bold yellow ul # style for file names in diffs. Default is plain.
 	file-decoration-style = yellow ol ul # decoration style for file names. Default is plain.

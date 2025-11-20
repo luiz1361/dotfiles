@@ -4,7 +4,7 @@
 
 ### Uncomment the line below to enable zsh's startup profiler (zprof).
 ### Use this when you want to identify slow parts of your zsh startup.
-# zmodload zsh/zprof
+#zmodload zsh/zprof
 
 #############################################
 # GENERAL SETTINGS / MISC
@@ -73,34 +73,20 @@ eval "$(starship init zsh)"  # using starship instead of ZSH_THEME; default oh-m
 # The `plugins` array lists which Oh-My-Zsh plugins to load.
 # Each plugin enables completions, aliases, and helper functions that speed up common tasks.
 plugins=(
-    # ansible: completion and helper aliases for Ansible
-    ansible
     # git: core git aliases and helpers (commonly used)
     git
-    # kubectx: quick kubectl context / namespace switching helpers
-    kubectx
-    # aws: basic AWS CLI completions and helpers
-    aws
     # you-should-use: suggests a command you should have used from your history to improve consistency
     you-should-use
-    # helm: completion and helpers for Helm (kubernetes package manager)
-    helm
-    # terraform: completions and helper functions for Terraform
-    terraform
     # fast-syntax-highlighting: faster syntax highlighting for zsh (lighter weight than zsh-syntax-highlighting)
     fast-syntax-highlighting
     # thefuck: command auto-correction via thefuck CLI
     thefuck
-    # zsh-completions: community-maintained completion definitions for many tools
-    zsh-completions
     # zsh-autosuggestions: live suggestions from history as you type
     zsh-autosuggestions
     # git-auto-fetch: automatically fetch remote changes to keep git status accurate
     git-auto-fetch
     # zsh-vim-mode: a modal editing mode for the shell similar to vim
     zsh-vim-mode
-    # kubectl: completion and helper functions for kubectl
-    kubectl
     # fzf-zsh-plugin: fzf integration utilities for the shell
     fzf-zsh-plugin
 )
@@ -116,7 +102,6 @@ source $ZSH/oh-my-zsh.sh  # default: not sourced unless user enabled oh-my-zsh
 # Increase Zsh history size so more commands are preserved between sessions.
 HISTSIZE=1000000       # Keep this many commands in memory (session)  # default: HISTSIZE=1000
 SAVEHIST=1000000       # This is required to actually save them, needs to match with HISTSIZE  # default: SAVEHIST=1000
-
 
 # History options for better usability across multiple terminal instances:
 # - unsetopt HIST_SAVE_BY_COPY: Preserve the history file's inode (not rename it) when zsh saves history.
@@ -179,10 +164,6 @@ export ZSH_HIGHLIGHT_MAXLENGTH=40  # default: unlimited / not set
 # Activate Mise
 eval "$(${HOME}/.local/bin/mise activate zsh)"  # default: mise not activated
 
-### Zsh Profiling
-# To profile zsh startup, uncomment the zmodload/zprof line at the top and uncomment `zprof` below:
-# zprof
-
 #############################################
 # CUSTOM ALIASES (files sourced from ~/.aliases.d)
 #############################################
@@ -198,3 +179,7 @@ if [ -d "$ALIAS_DIR" ]; then
         [ -r "$alias_file" ] && source "$alias_file"
     done
 fi
+
+### Zsh Profiling
+# To profile zsh startup, uncomment the zmodload/zprof line at the top and uncomment `zprof` below:
+#zprof

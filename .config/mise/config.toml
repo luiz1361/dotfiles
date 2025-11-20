@@ -56,10 +56,6 @@ terragrunt = "0.93.0"
 ansible = "12.2.0"
 localstack = "4.10.0"
 
-# Parsers
-yq = "4.48.1"
-jq = "1.8.1"
-
 # Misc
 wrk = "4.2.0"
 cowsay = "1.6.0"
@@ -70,6 +66,7 @@ eza = "0.23.4"
 ripgrep = "15.1.0"
 zoxide = "0.9.8"
 yazi = "25.5.31"
+dust = "1.2.3"
 
 # Cloud
 aws = "2.31.25"
@@ -86,10 +83,18 @@ kustomize = "5.8.0"
 # AI
 gemini-cli = "0.12.0"
 
-# Editor & Pagers
+# Text Editors
 neovim = "0.11.4"
-delta = "0.18.2"
+
+# Parsers
 bat = "0.26.0"
+yq = "4.48.1"
+jq = "1.8.1"
+jless = "0.9.0"
+
+# Diff
+delta = "0.18.2"
+difftastic = "0.65.0"
 
 # Git
 lazygit = "0.56.0"
@@ -98,7 +103,13 @@ gitleaks = "8.29.1"
 
 # Terminal
 tmux = "3.5a"
-"cargo:spotify_player" = "latest"
+
+# OS
+"cargo:procs" = "0.14.10"
+bottom = "0.11.4"
+
+# Entertainment
+"cargo:spotify_player" = "0.21.2"
 
 # Databases
 sqlite = "3.51.0"

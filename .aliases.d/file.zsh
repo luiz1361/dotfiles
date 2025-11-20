@@ -47,8 +47,8 @@ alias cp='cp -v'
 # Clears the screen
 alias cls='clear' # Good 'ol Clear Screen command
 
-# Lists files in long format with icons, git status, and hidden files using eza
-alias l="eza -l --icons --git -a"
+# Lists files in long format with icons, git status, hidden files and group directories
+alias l="eza -l --icons --git -a --group-directories-first"
 
 # Lists files as a tree with icons, git status, and hidden files using eza, ignoring .git
 alias ltree="eza -a --tree --icons --git -I '.git'"
@@ -56,11 +56,17 @@ alias ltree="eza -a --tree --icons --git -I '.git'"
 # Follows the content of a file in real-time
 alias tailf="tail -f"
 
-# Searches for patterns using ripgrep
-alias rgrep="rg"
-
 # Searches for patterns with color output
 alias grep="grep --color=auto"
+
+# Searches for patterns using ripgrep.
+alias rgrep="rg"
+
+# Searches with ripgrep to include hidden files, ignoring .gitignore and .git folder. By default rg respects .gitignore files.
+alias rg="rg --hidden --no-ignore --glob '!.git/*'"
+
+# Finds files, directories or links using fd, including hidden ones, ignoring .gitignore and .git folder. By default fd respects .gitignore files.
+alias fd="fd -t f -t d -t l --hidden --no-ignore --exclude .git"
 
 # Copies the contents of a file to the clipboard
 pbc() { cat $1 | pbcopy }

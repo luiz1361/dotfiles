@@ -13,6 +13,21 @@ alias ga="git add"
 # gc: Commit staged changes with a message.
 alias gc="git commit -m "
 
+# gci: Interactive commit message generator using gum for structured input.
+gci() {
+    local ctype breaking scope summary description message exitmsg
+    exitmsg="Aborted."
+    ctype=$(gum choose "fix" "feat" "docs" "style" "refactor" "test" "chore" "revert") || { echo "$exitmsg"; return; }
+    breaking=$(gum choose "" "!") || { echo "$exitmsg"; return; }
+    scope=$(gum input --placeholder "scope") || { echo "$exitmsg"; return; }
+    [ -n "$scope" ] && scope="($scope)"
+    summary=$(gum input --value "$ctype$scope$breaking: " --placeholder "Summary of this change") || { echo "$exitmsg"; return; }
+    description=$(gum write --placeholder "Details of this change") || { echo "$exitmsg"; return; }
+    message=$summary$'\n\n'$description
+    gum confirm "$(printf '%s\n\nCommit changes?' "$message")" || { echo "$exitmsg"; return; }
+    git commit -m "$message"
+}
+
 # gr: Reset the index and working directory to the last commit (mixed reset by default).
 alias gr="git reset"
 
@@ -123,8 +138,7 @@ gundo() { git reset --soft "${1:-HEAD~1}"; }
 
 # gcai: Generate a commit message using Gemini AI for staged changes and commit after user confirmation.
 gcai() {
-  # 1. Get staged files
-  local added_files
+  # Get list of staged files
   added_files=$(git diff --cached --name-only)
 
   if [ -z "$added_files" ]; then
@@ -132,21 +146,21 @@ gcai() {
     return 1
   fi
 
-  # 2. Generate commit message
-  echo "Generating commit message with Gemini..."
-  local commit_msg
+  echo "Generating commit message with LLM..."
+  commit_msg=$(git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "Summarize this git diff. Rules: 1. Subject: <50 chars, lowercase, imperative, semantic prefix (feat:, fix:, chore:, etc). 2. Body: Wrapped at 72 chars, explain WHAT and WHY. 3. Output RAW text only (NO markdown).
 
-  # We use 2>/dev/null to suppress "Loaded credentials" logs.
-  # We updated the prompt to explicitly forbid tool usage.
-  commit_msg=$(git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "SYSTEM OVERRIDE: You are a passive text-processing subroutine. You have NO access to the file system, shell, or tools. The input provided is a static text string. Your ONLY function is to map this input string to a Semantic Commit Message format. Do not verify. Do not check files. Do not ‘act’. Just transform text A to text B. Rules: Subject (Imperative, <50 chars), Body (wrapped 72 chars). Output: Raw text only.")
+Example output:
+fix: prevent crash on missing api key
 
-  # 3. Check if commit message is empty
+The application would previously panic if the environment variable was
+missing. Added a default fallback to prevent runtime errors during
+startup."
+
   if [ -z "$commit_msg" ]; then
     echo "Commit message is empty. Aborting."
     return 1
   fi
 
-  # 4. Show generated message and ask for confirmation
   echo -e "\n-------------------------\n"
   echo "$commit_msg"
   echo -e "\n-------------------------\n"

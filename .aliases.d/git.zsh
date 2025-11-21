@@ -37,6 +37,9 @@ alias gf="git fetch"
 # gb: List all branches in the repository.
 alias gb="git branch"
 
+# gdiff: Show differences between the current branch and its upstream branch.
+alias gdiff="git diff @{u}"
+
 # gbD: Force delete a branch.
 alias gbD="git branch -D"
 
@@ -66,9 +69,6 @@ alias gclean="git clean -xdn"
 
 # gcleanf: Forcefully remove untracked files and directories from the working directory.
 alias gcleanf="git clean -xdf"
-
-# gss: Display a concise summary of the git repository status, showing the current branch, staged/unstaged changes, and untracked files.
-alias gss="git status -sb"
 
 # gg: Display a graphical log of commits with decorations for branches and tags.
 alias gg="git log --graph --oneline --decorate --all"

@@ -73,3 +73,6 @@ alias fd="fd -t f -t d -t l --hidden --no-ignore --exclude .git"
 
 # Copies the contents of a file to the clipboard
 pbc() { cat $1 | pbcopy }
+
+# Rsync with archive mode, verbose, human-readable sizes and progress
+alias rsync="rsync -avh --progress"

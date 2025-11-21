@@ -164,6 +164,12 @@ compinit -C  # load from cache, skip unnecessary rebuilds  # default: compinit (
 # This is particularly helpful when accidentally pasting large JSON payloads into the prompt.
 export ZSH_HIGHLIGHT_MAXLENGTH=40  # default: unlimited / not set
 
+# Set iTerm2 terminal title to a custom value
+DISABLE_AUTO_TITLE="true"
+precmd() {
+  print -Pn "\e]0;[ iTerm2 ]\a"
+}
+
 #############################################
 # MISE
 #############################################

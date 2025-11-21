@@ -62,6 +62,9 @@ alias grep="grep --color=auto"
 # Searches for patterns using ripgrep.
 alias rgrep="rg"
 
+# Searches for patterns using ripgrep.
+alias gre="rg"
+
 # Searches with ripgrep to include hidden files, ignoring .gitignore and .git folder. By default rg respects .gitignore files.
 alias rg="rg --hidden --no-ignore --glob '!.git/*'"
 

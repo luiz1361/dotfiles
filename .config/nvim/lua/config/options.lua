@@ -189,3 +189,17 @@ vim.opt.list = true
 -- Keep cursor centered vertically. Can also be done with 'zz' command.
 -- Default: 0
 vim.opt.scrolloff = 999
+
+-- We use an autocmd because filetype plugins often force these
+-- flags back on. This overwrites them for every file you open.
+
+-- Autocmd to adjust 'formatoptions' for all file types
+-- Removes 'o' and 'r' from 'formatoptions' to stop comment continuation.
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        -- Remove 'o': Stop comment continuation when pressing 'o' or 'O'
+        -- Remove 'r': Stop comment continuation when pressing 'Enter' (optional)
+        vim.opt_local.formatoptions:remove({ "o", "r" })
+    end,
+})

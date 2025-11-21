@@ -136,39 +136,37 @@ gpo() { git push origin "${1:-$(git rev-parse --abbrev-ref HEAD)}"; }
 # gundo: Perform a soft reset to the specified commit (or one commit back), keeping changes staged.
 gundo() { git reset --soft "${1:-HEAD~1}"; }
 
-# gcai: Generate a commit message using Gemini AI for staged changes and commit after user confirmation.
+# gcai: Generate a commit message using AI for staged changes and commit after user confirmation.
 gcai() {
-  # Get list of staged files
-  added_files=$(git diff --cached --name-only)
+    # Get list of staged files
+    added_files=$(git diff --cached --name-only)
 
-  if [ -z "$added_files" ]; then
-    echo "No staged files found. Aborting."
-    return 1
-  fi
+    if [ -z "$added_files" ]; then
+        echo "No staged files found. Aborting."
+        return 1
+    fi
 
-  echo "Generating commit message with LLM..."
-  commit_msg=$(git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "Summarize this change in a concise git commit message. Follow Git semantic commit conventions and standards")
+    commit_msg=$(gum spin --spinner dot --title "Generating commit message..." -- zsh -c 'git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "Summarize this change in a concise git commit message. Follow Git semantic commit conventions and standards. Raw text no markdowns" 2>/dev/null')
 
-  if [ -z "$commit_msg" ]; then
-    echo "Commit message is empty. Aborting."
-    return 1
-  fi
+    if [ -z "$commit_msg" ]; then
+        echo "Commit message is empty. Aborting."
+        return 1
+    fi
 
-  echo -e "\n-------------------------\n"
-  echo "$commit_msg"
-  echo -e "\n-------------------------\n"
+    echo -e "\n-------------------------\n"
+    echo "$commit_msg"
+    echo -e "\n-------------------------\n"
 
-  local confirm
-  read -r "confirm?Proceed with this commit? [y/N]: "
+    local confirm
+    read -r "confirm?Proceed with this commit? [y/N]: "
 
-  case "$confirm" in
-    [yY] | [yY][eE][sS])
-      git commit -m "$commit_msg"
-      ;;
-    *)
-      echo "Abort: commit canceled by user."
-      return 1
-      ;;
-  esac
+    case "$confirm" in
+        [yY] | [yY][eE][sS])
+            git commit -m "$commit_msg"
+            ;;
+        *)
+            echo "Abort: commit canceled by user."
+            return 1
+            ;;
+    esac
 }
-

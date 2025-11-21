@@ -147,14 +147,7 @@ gcai() {
   fi
 
   echo "Generating commit message with LLM..."
-  commit_msg=$(git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "Summarize this git diff. Rules: 1. Subject: <50 chars, lowercase, imperative, semantic prefix (feat:, fix:, chore:, etc). 2. Body: Wrapped at 72 chars, explain WHAT and WHY. 3. Output RAW text only (NO markdown).
-
-Example output:
-fix: prevent crash on missing api key
-
-The application would previously panic if the environment variable was
-missing. Added a default fallback to prevent runtime errors during
-startup."
+  commit_msg=$(git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "Summarize this change in a concise git commit message. Follow Git semantic commit conventions and standards")
 
   if [ -z "$commit_msg" ]; then
     echo "Commit message is empty. Aborting."

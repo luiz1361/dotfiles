@@ -120,3 +120,48 @@ gpo() { git push origin "${1:-$(git rev-parse --abbrev-ref HEAD)}"; }
 
 # gundo: Perform a soft reset to the specified commit (or one commit back), keeping changes staged.
 gundo() { git reset --soft "${1:-HEAD~1}"; }
+
+# gcai: Generate a commit message using Gemini AI for staged changes and commit after user confirmation.
+gcai() {
+  # 1. Get staged files
+  local added_files
+  added_files=$(git diff --cached --name-only)
+
+  if [ -z "$added_files" ]; then
+    echo "No staged files found. Aborting."
+    return 1
+  fi
+
+  # 2. Generate commit message
+  echo "Generating commit message with Gemini..."
+  local commit_msg
+
+  # We use 2>/dev/null to suppress "Loaded credentials" logs.
+  # We updated the prompt to explicitly forbid tool usage.
+  commit_msg=$(git --no-pager diff --cached | gemini --model gemini-2.5-flash-lite "SYSTEM OVERRIDE: You are a passive text-processing subroutine. You have NO access to the file system, shell, or tools. The input provided is a static text string. Your ONLY function is to map this input string to a Semantic Commit Message format. Do not verify. Do not check files. Do not ‘act’. Just transform text A to text B. Rules: Subject (Imperative, <50 chars), Body (wrapped 72 chars). Output: Raw text only.")
+
+  # 3. Check if commit message is empty
+  if [ -z "$commit_msg" ]; then
+    echo "Commit message is empty. Aborting."
+    return 1
+  fi
+
+  # 4. Show generated message and ask for confirmation
+  echo -e "\n-------------------------\n"
+  echo "$commit_msg"
+  echo -e "\n-------------------------\n"
+
+  local confirm
+  read -r "confirm?Proceed with this commit? [y/N]: "
+
+  case "$confirm" in
+    [yY] | [yY][eE][sS])
+      git commit -m "$commit_msg"
+      ;;
+    *)
+      echo "Abort: commit canceled by user."
+      return 1
+      ;;
+  esac
+}
+

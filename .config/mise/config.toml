@@ -103,6 +103,7 @@ gitleaks = "8.29.1"
 
 # Terminal
 tmux = "3.5a"
+gum = "0.17.0"
 
 # OS
 "cargo:procs" = "0.14.10"

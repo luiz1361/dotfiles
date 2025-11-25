@@ -32,12 +32,13 @@ GITLEAKS_CONFIG="{{env.HOME}}/.gitleaks.toml"
 MANPAGER='less -X'
 
 [tools]
-# Programming languages and tools versions
+# Programming languages and package management
 ruby = "3.4.7"
 node = "25.1.0"
 python = "3.14.0"
 go = "1.25.4"
 rust = "1.91.1"
+uv = "0.9.11"
 
 # Linters
 "gem:rubocop" = "1.81.7"

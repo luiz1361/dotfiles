@@ -26,48 +26,50 @@ export MAKEFLAGS="-j$(( $(sysctl -n hw.ncpu) + 1 ))"  # default: MAKEFLAGS unset
 # ---- MySQL client (Homebrew) ----
 # If you need the MySQL client libraries and headers for builds, set these environment variables
 # so compilers and pkg-config find the Homebrew-installed mysql-client.
-#export LDFLAGS="-L/opt/homebrew/opt/mysql-client/lib"     # default: LDFLAGS unset
-#export CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include" # default: CPPFLAGS unset
-#export PKG_CONFIG_PATH="/opt/homebrew/opt/mysql-client/lib/pkgconfig" # default: PKG_CONFIG_PATH unset
-#export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"     # default: PATH unchanged
+#export LDFLAGS="-L/opt/homebrew/opt/mysql-client/lib"
+#export CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include"
+#export PKG_CONFIG_PATH="/opt/homebrew/opt/mysql-client/lib/pkgconfig"
+#export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 #or just run the following command which will link the binaries from /opt into the regular ~/homebrew/bin path
 #brew link mysql-client --force
 
 # Evaluate the output of Homebrew's shellenv command to set up environment variables (like PATH) for Homebrew in the Zsh shell.
-eval "$(/opt/homebrew/bin/brew shellenv)"  # default: Homebrew env not applied
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # ---- Visual Studio Code command-line launcher ----
 # Add `code` launcher to PATH so you can open files or launch vscode from the terminal.
 # Example: `code .` will open the current directory in VS Code.
-export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin  # default: PATH unchanged
+export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
 # ---- Windsurf command-line (codeium) ----
 # If you use Windsurf (Codeium CLI) or a similar tool, add it to PATH.
 # Keeps tooling installed in ~/.codeium available to your shell.
-export PATH="${HOME}/.codeium/windsurf/bin:$PATH"  # default: PATH unchanged
+export PATH="${HOME}/.codeium/windsurf/bin:$PATH"
 
 # ---- Antigravity command-line launcher -----
-export PATH="${HOME}/.antigravity/antigravity/bin:$PATH"  # default: PATH unchanged
+export PATH="${HOME}/.antigravity/antigravity/bin:$PATH"
+
+# ---- Kiro terminal integration ----
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 
 # ---- Krew (kubectl plugin manager) ----
 # Adds kubectl krew's bin directory to PATH, so kubectl plugins you installed via krew are available.
-export PATH="${HOME}/.krew/bin:$PATH"  # fixed typo; default: PATH unchanged
+export PATH="${HOME}/.krew/bin:$PATH"
 
 # ---- iTerm2 Shell Integration ----
 # Source iTerm2 shell integration script if installed to get features like highlighted selection, prompt info, etc.
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"  # default: not sourced
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 #############################################
 # OH-MY-ZSH AND THEME CONFIGURATION
 #############################################
 
 # Define Oh My Zsh installation path (used by oh-my-zsh bootstrap scripts).
-export ZSH="$HOME/.oh-my-zsh"  # default: $HOME/.oh-my-zsh (typical oh-my-zsh install path)
+export ZSH="$HOME/.oh-my-zsh"
 
-# Set ZSH theme (Powerlevel10k)
-# Powerlevel10k is optimized for performance and has a high quality prompt.
-#ZSH_THEME="powerlevel10k/powerlevel10k"
-eval "$(starship init zsh)"  # using starship instead of ZSH_THEME; default oh-my-zsh theme: "robbyrussell"
+# Using starship instead of ZSH_THEME;
+# Default: oh-my-zsh theme: "robbyrussell"
+eval "$(starship init zsh)"
 
 # ---- Oh-My-Zsh plugins configuration ----
 # The `plugins` array lists which Oh-My-Zsh plugins to load.
@@ -90,10 +92,10 @@ plugins=(
     # fzf-zsh-plugin: fzf integration utilities for the shell
     fzf-zsh-plugin
 )
-# default in a fresh oh-my-zsh template: plugins=(git)
+# Default: in a fresh oh-my-zsh template: plugins=(git)
 
 # Load Oh My Zsh framework which initializes themes, plugins and completions.
-source $ZSH/oh-my-zsh.sh  # default: not sourced unless user enabled oh-my-zsh
+source $ZSH/oh-my-zsh.sh
 
 #############################################
 # SHELL BEHAVIOR & HISTORY CONFIG
@@ -155,14 +157,16 @@ zstyle ':completion:*' cache-path ~/.zcompdump  # default: no cache-path set
 # compinit -C (uppercase C)
 #   Tells compinit to only read the cached file and never rebuild it.
 #   If the cache file doesn’t exist, compinit -C will fail.
-compinit -C  # load from cache, skip unnecessary rebuilds  # default: compinit (rebuilds if needed)
+# Default: compinit (rebuilds if needed)
+compinit -C  # load from cache, skip unnecessary rebuilds
 
 # Only load bashcompinit if you need bash-style completions (commented out unless specifically needed).
 #autoload -Uz bashcompinit && bashcompinit
 
 # Prevent slow syntax highlighting when pasting very long lines by setting a sane max length.
 # This is particularly helpful when accidentally pasting large JSON payloads into the prompt.
-export ZSH_HIGHLIGHT_MAXLENGTH=40  # default: unlimited / not set
+# Default: unlimited / not set
+export ZSH_HIGHLIGHT_MAXLENGTH=40
 
 # Set iTerm2 terminal title to a custom value
 DISABLE_AUTO_TITLE="true"
@@ -175,7 +179,7 @@ precmd() {
 #############################################
 
 # Activate Mise
-eval "$(${HOME}/.local/bin/mise activate zsh)"  # default: mise not activated
+eval "$(${HOME}/.local/bin/mise activate zsh)"
 
 #############################################
 # CUSTOM ALIASES (files sourced from ~/.aliases.d)

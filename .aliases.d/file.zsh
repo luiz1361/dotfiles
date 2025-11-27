@@ -1,6 +1,3 @@
-# Initialize zoxide for zsh shell
-eval "$(zoxide init zsh)"
-
 # Changes directory using zoxide
 alias cd="z"
 
@@ -48,10 +45,10 @@ alias cp='cp -v'
 alias cls='clear' # Good 'ol Clear Screen command
 
 # Lists files in long format with icons, git status, hidden files and group directories
-alias l="eza -l --icons --git -a --group-directories-first"
+alias l="eza --color=always -l --icons --git -a --group-directories-first"
 
 # Lists files as a tree with icons, git status, and hidden files using eza, ignoring .git
-alias ltree="eza -a --tree --icons --git -I '.git'"
+alias ltree="eza --color=always -a --tree --icons --git -I '.git'"
 
 # Follows the content of a file in real-time
 alias tailf="tail -f"
@@ -71,8 +68,20 @@ alias rg="rg --hidden --no-ignore --glob '!.git/*'"
 # Finds files, directories or links using fd, including hidden ones, ignoring .gitignore and .git folder. By default fd respects .gitignore files.
 alias fd="fd -t f -t d -t l --hidden --no-ignore --exclude .git"
 
-# Copies the contents of a file to the clipboard
-pbc() { cat $1 | pbcopy }
-
 # Rsync with archive mode, verbose, human-readable sizes and progress
 alias rsync="rsync -avh --progress"
+
+# Use GNU sed (gsed) from Homebrew instead of the macOS BSD sed
+alias sed="/opt/homebrew/bin/gsed"
+
+# Use GNU awk (gawk) from Homebrew instead of the macOS mawk/awk
+alias awk="/opt/homebrew/bin/gawk"
+
+# Show free disk space for each mounted filesystem, using human-readable suffixes (e.g. 1K, 234M, 2G).
+alias df='df -h'
+
+# Show disk usage for files and directories with human-readable sizes.
+alias du='du -h'
+
+# Copies the contents of a file to the clipboard
+pbc() { cat $1 | pbcopy }

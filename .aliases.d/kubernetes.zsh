@@ -1,6 +1,3 @@
-# Enable kubectl completion for zsh
-source <(kubectl completion zsh)
-
 # Alias for kubectl command
 alias k='kubectl'
 

@@ -1,36 +1,47 @@
 # ----- SMARTER TAB COMPLETION -----
 
-# Complete files without caring about upper/lowercase (default: off)
+# Complete files without caring about upper/lowercase
+# Default: off
 set completion-ignore-case on
 
-# Treat '-' and '_' as equivalent during completion (default: off)
+# Treat '-' and '_' as equivalent during completion
+# Default: off
 set completion-map-case on
 
-# Show all possible matches immediately when TAB is pressed (default: off)
+# Show all possible matches immediately when TAB is pressed
+# Default: off
 set show-all-if-ambiguous on
 
-# Automatically append '/' when autocompleting a symlink to a directory (default: off)
+# Automatically append '/' when autocompleting a symlink to a directory
+# Default: off
 set mark-symlinked-directories on
 
-# Show all autocomplete results without paging (default: on)
+# Show all autocomplete results without paging
+# Default: on
 set page-completions off
 
-# Highlight the shared prefix of multiple options using LS_COLORS definitions (default: off)
+# Highlight the shared prefix of multiple options using LS_COLORS definitions
+# Default: off
 set colored-completion-prefix on
 
-# Colorize file type indicators in completion results (like ls -F) (default: off)
+# Colorize file type indicators in completion results (like ls -F)
+# Default: off
 set colored-stats on
 
-# Show additional file info (permissions, type markers) when completing (default: off)
+# Show additional file info (permissions, type markers) when completing
+# Default: off
 set visible-stats on
 
-# Do not show dotfiles unless the user explicitly starts with a dot (default: on)
+# Do not show dotfiles unless the user explicitly starts with a dot
+# Default: on
 set match-hidden-files off
 
-# Ask before showing more than 200 possible completion options (default: 100)
+# Ask before showing more than 200 possible completion options
+# Default: 100
 set completion-query-items 200
 
-# Avoid duplicating typed text when the cursor is in the middle of the line (default: off)
+# Avoid duplicating typed text when the cursor is in the middle of the line
+# Default: off
 # Example: "cd ~/mozil" becomes "cd ~/mozilla" instead of a duplicated mess
 set skip-completed-text on
 
@@ -51,13 +62,16 @@ set skip-completed-text on
 
 # ----- UNICODE & META CHARACTER HANDLING -----
 
-# Allow UTF-8 input so accented characters or symbols don't break (default: off)
+# Allow UTF-8 input so accented characters or symbols don't break
+# Default: off
 set input-meta on
 
-# Allow UTF-8 output so filenames or pasted text don't turn into $'\xyz' escapes (default: off)
+# Allow UTF-8 output so filenames or pasted text don't turn into $'\xyz' escapes
+# Default: off
 set output-meta on
 
-# Prevent Readline from converting high-bit characters into escape sequences (default: on)
+# Prevent Readline from converting high-bit characters into escape sequences
+# Default: on
 set convert-meta off
 
 # ----- EDITING SHORTCUTS -----

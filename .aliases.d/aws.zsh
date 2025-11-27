@@ -1,35 +1,12 @@
-# Zsh helpers for common AWS CLI tasks. Provides aliases and functions that call
-# the aws CLI and format output with jq and column. Requires: aws, jq, column.
-
-# Enable aws CLI tab completion by using the aws_completer. If zsh doesn't
-# support bash-style completions, you may need:
-#   autoload -Uz bashcompinit; bashcompinit
-complete -C aws_completer aws
-
-# List EC2 instances in a human-readable table:
-# - Calls `aws ec2 describe-instances`
-# - Uses jq to extract columns: Name, state, instance id, AZ, private IP,
-#   public IP (or NULL), launch time, and instance type
-# - Converts to CSV, replaces empty values with "NULL", and formats into a
-#   aligned table with column separators.
+# List EC2 instances in a human-readable table.
 alias adesci="aws ec2 describe-instances | jq -r '([\"name\",\"state\",\"id\",\"az\",\"priv_ip\",\"pub_ip\",\"ca\",\"type\"] | (., map(length*\"-\"))), (.Reservations[].Instances[] | [(.Tags // {} | from_entries | .Name), .State.Name, .InstanceId, .Placement.AvailabilityZone, .PrivateIpAddress, .PublicIpAddress // \"NULL\", .LaunchTime, .InstanceType]) | @csv' | sed -e 's/,,/,\"NULL\",/g' -e 's/,/  |  /g' -e 's/^/|  /g' -e 's/$/  |/g' -e 's/\"//g' | column -t"
 
-# Lookup recent CloudTrail events for a specific resource name:
-# - Calls `aws cloudtrail lookup-events` filtering by ResourceName
-# - Limits results to the most recent 3 events and pretty-prints with jq
-# Usage: actrail <resource-name>
+# Lookup recent CloudTrail events for a specific resource name. Usage: actrail <resource-name>
 actrail() {
     aws cloudtrail lookup-events --max-results 3 --lookup-attributes AttributeKey=ResourceName,AttributeValue="$1" | jq
 }
 
-# List Auto Scaling lifecycle hooks, or complete a lifecycle action for an instance:
-# - No arguments: lists all Auto Scaling Groups and their lifecycle hook names
-# - With <instance> <hook> [asg-name]: completes the lifecycle action for the
-#   given instance and hook (uses CONTINUE). If the ASG name is not provided,
-#   it attempts to read the 'aws:autoscaling:groupName' tag from the instance.
-# Usage:
-#   alifecycle                # list hooks
-#   alifecycle <instance> <hook> [asg-name]
+# List Auto Scaling lifecycle hooks, or complete a lifecycle action for an instance. Usage: No arguments lists all hooks, or provide <instance> <hook> [asg-name] to complete the action.
 alifecycle() {
     if [ -z "$1" ] || [ -z "$2" ]; then
         asgs=($(aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[].AutoScalingGroupName' --output text))
@@ -57,9 +34,7 @@ alifecycle() {
     fi
 }
 
-# Decode an STS encoded authorization message and pretty-print the resulting JSON:
-# - Calls `aws sts decode-authorization-message` and pipes the DecodedMessage to jq
-# Usage: adecode <encoded-message>
+# Decode an STS encoded authorization message and pretty-print the resulting JSON.
 adecode() {
     aws sts decode-authorization-message --encoded-message "$1" --query DecodedMessage --output text | jq '.'
 }
